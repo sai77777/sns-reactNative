@@ -40,7 +40,7 @@ const WelcomeScreen = () => {
   useEffect(() => {
 
     if(!user || !user.uid) return
-    navigation.navigate('Main')
+    navigation.reset({index: 0, routes: [{name: 'Main'}]})
   }, [user, navigation])
 
   return (
