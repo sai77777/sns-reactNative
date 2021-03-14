@@ -16,5 +16,4 @@ const config: Config = {
   storageBucket: process.env.STORAGE_BUCKET!,
   messagingSenderId: process.env.MESSAGING_SENDER_ID!,
 }
-
 export default config

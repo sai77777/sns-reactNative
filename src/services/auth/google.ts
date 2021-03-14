@@ -12,6 +12,7 @@ type Result = {
 //Lesson1: アプリにログインログアウトを実装してみよう
 export const signInGoogle = async (): Promise<Result> => {
   try {
+    
     const authState = await AppAuth.authAsync({
       issuer: 'https://accounts.google.com',
       scopes: ['openid', 'profile'],

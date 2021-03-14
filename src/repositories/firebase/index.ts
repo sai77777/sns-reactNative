@@ -5,7 +5,10 @@ import 'firebase/storage'
 import 'firebase/functions'
 import config from './config'
 
-firebase.initializeApp(config)
+// firebase.initializeAppが複数回呼ばれると「Firebase App named '[DEFAULT]' already exists」エラーが起こる
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(config)
+}
 
 export const db = firebase.firestore()
 export const storage = firebase.storage()

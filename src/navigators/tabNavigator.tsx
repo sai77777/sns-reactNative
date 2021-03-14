@@ -41,7 +41,7 @@ const Stack = createStackNavigator()
 //   <Stack.Navigator initialRouteName="Main">
 //     <Stack.Screen
 //       name="Main"
-//       component={TimelineStackNavigator}
+//       component={HomeScreen}
 //       options={{
 //         headerShown: false,
 //       }}
@@ -172,7 +172,7 @@ const UserStackNavigator = () => {
           headerBackTitleVisible: false,
           //headerTransparent: true,
         }}
-        //initialParams={{ uid: user?.uid }}
+        initialParams={{ uid: user?.uid }}
       />
       
     </Stack.Navigator>
