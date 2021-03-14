@@ -168,9 +168,18 @@ const UserStackNavigator = () => {
         name="Main"
         component={UserScreen}
         options={{
-          headerTitle: 'ユーザー',
+          headerTitle: null,
           headerBackTitleVisible: false,
-          //headerTransparent: true,
+          headerTransparent: true,
+        }}
+        initialParams={{ uid: user?.uid }}
+      />
+      <Stack.Screen
+        name="UpdateUser"
+        component={UpdateUserScreen}
+        options={{
+          headerTitle: '変更',
+          headerBackTitleVisible: false,
         }}
         initialParams={{ uid: user?.uid }}
       />

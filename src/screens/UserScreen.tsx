@@ -19,7 +19,7 @@ const UserScreen = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const uid = (route.params as any).uid
     
-  const [user, loading] = useUser('test')
+  const [user, loading] = useUser(uid)
 
   const showThumbnailURL = useMemo(() => {
     if (user && user.thumbnailURL) {
