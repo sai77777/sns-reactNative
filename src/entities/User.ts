@@ -4,6 +4,11 @@ export type User = {
   profile: string
   thumbnailURL: string | null
 }
+export type UpdateUser = {
+  name: string
+  profile: string
+  thumbnailBlob?: Blob
+}
 
 export const buildUser = (id: string, data: firebase.firestore.DocumentData) => {
   const newUser: User = {

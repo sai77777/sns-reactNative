@@ -19,3 +19,4 @@ web-build/
 # google service
 GoogleService-Info.plist
 google-services.json
+yarn.lock

@@ -23,7 +23,7 @@
       "favicon": "./assets/favicon.png"
     },
     "experiments": {
-      "turboModules": true
+      "turboModules": false
     }
   }
 }
