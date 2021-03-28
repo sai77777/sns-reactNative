@@ -39,14 +39,11 @@ const UpdateUserScreen = () => {
         // app.jsonの"experiments"の"turboModules"をfalseにする必要がある
         // https://forums.expo.io/t/blob-stopped-working-in-expo-sdk-39/43516/30
         const thumbnailBlob = await convertURLToBlob(thumbnailURL)
-        console.log(thumbnailBlob)
         const data: UpdateUser = { name, profile, thumbnailBlob }
-        console.log(data)
         await updateUser(uid, data)
         setFetching(false)
         navigation.goBack()
       } catch (e) {
-        console.log(e)
         setFetching(false)
         Alert.alert('プロフィールの変更に失敗しました')
       }

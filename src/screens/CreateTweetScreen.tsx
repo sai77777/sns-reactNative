@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { CreateTweet } from '../entities/Tweet'
 import { auth } from '../repositories/firebase'
-import { createTweet, getTweetRef } from '../repositories/tweet'
+import { createTweet } from '../repositories/tweet'
 import { getUserRef } from '../repositories/user'
 import { pickImageFromDevice, convertURLToBlob } from '../services/image'
 import { useUser } from '../services/hooks/user'
@@ -29,63 +29,21 @@ const CreateTweetScreen = () => {
   const [text, setText] = useState<string>('')
   const [fileURLs, setFileURLs] = useState<string[]>([])
   const [firebaseUser] = useAuthState(auth)
-  const [user] = useUser(firebaseUser.uid)
+  const [user, loading] = useUser(firebaseUser.uid)
   const [fetching, setFetching] = useState<boolean>(false)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tweetID = (route.params as any)?.tweetID
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const writerUID = (route.params as any)?.writerUID
-
-  const onAddImage = useCallback(async () => {
-    if (fileURLs.length > 3) {
-      return Alert.alert('4枚までしか画像を添付できません')
-    }
-    const uri = await pickImageFromDevice()
-    setFileURLs((prev) => [...prev, uri])
-  }, [fileURLs.length])
-
-  const onRemoveImage = useCallback(
-    (index) => {
-      if (index >= fileURLs.length) {
-        return Alert.alert('画像削除に失敗しました')
-      }
-      setFileURLs((prev) => [...prev.slice(0, index), ...prev.slice(index + 1)])
-    },
-    [fileURLs.length]
-  )
 
   const onTweet = useCallback(
-    async (text: string, fileURLs: string[]) => {
+    async (text: string) => {
       try {
         if (!user) return
-        setFetching(true)
-        const fileTask = fileURLs.map(async (fileURL) => {
-          const blob = await convertURLToBlob(fileURL)
-          return blob
-        })
-        const fileBlobs = await Promise.all(fileTask)
         const userRef = getUserRef(firebaseUser.uid)
-
-        let origin = undefined
-        if (tweetID && writerUID) {
-          origin = {
-            ref: getTweetRef(writerUID, tweetID),
-            writer: {
-              ref: getUserRef(writerUID),
-            },
-          }
-        }
-
         const data: CreateTweet = {
           text,
-          fileBlobs,
-          origin,
           writer: {
             ref: userRef,
           },
         }
-
         await createTweet(firebaseUser.uid, data)
         setText('')
         setFetching(false)
@@ -96,68 +54,28 @@ const CreateTweetScreen = () => {
         Alert.alert('エラー', e)
       }
     },
-    [firebaseUser.uid, navigation, tweetID, user, writerUID]
+    [firebaseUser.uid, navigation, user]
   )
 
   return (
-    <React.Fragment>
-      <View style={[styles.root, { paddingTop: insets.top }]}>
-        <View style={styles.actionBar}>
-          <TextButton text="キャンセル" fontSize={14} onPress={navigation.goBack} />
-          <FilledButton text="ツイートする" fontSize={14} onPress={() => onTweet(text, fileURLs)} />
-        </View>
-        <ScrollView>
-          <View style={styles.content}>
-            {user && <Avatar uri={user.thumbnailURL ?? undefined} />}
-            <TextInput
-              autoFocus={true}
-              style={styles.input}
-              multiline={true}
-              placeholder="いまどうしてる？"
-              value={text}
-              onChangeText={setText}
-            />
-          </View>
-
-          <Spacer size="l" />
-          <View style={styles.files}>
-            {fileURLs.map((fileURL, index) => (
-              <React.Fragment key={index}>
-                <View style={styles.imageWrapper}>
-                  <Image source={{ uri: fileURL }} style={styles.image} />
-                  <View style={styles.removeImageIconWrapper}>
-                    <Fab size="s" color="rgba(0, 0, 0, 0.8)" onPress={() => onRemoveImage(index)}>
-                      <AntDesign name="close" size={24} color="#ffffff" />
-                    </Fab>
-                  </View>
-                </View>
-                <Spacer />
-              </React.Fragment>
-            ))}
-          </View>
-          {tweetID && writerUID && (
-            <React.Fragment>
-              <Spacer size="l" />
-              <View style={styles.origin}>
-                <TweetPreview tweetID={tweetID} writerUID={writerUID} />
-              </View>
-            </React.Fragment>
-          )}
-          <KeyboardSpacer />
-        </ScrollView>
-        <View style={styles.bottomActionBarWrapper}>
-          <Separator />
-          <View style={styles.bottomActionBar}>
-            <TouchableOpacity onPress={onAddImage}>
-              <EvilIcons name="image" size={36} color="#1da1f2" />
-            </TouchableOpacity>
-          </View>
-          {/* MEMO: タブの高さ分スペースを引いている */}
-          <KeyboardSpacer topSpacing={-80} />
-        </View>
+    <View style={[styles.root, { paddingTop: insets.top }]}>
+      <View style={styles.actionBar}>
+        <TextButton text="キャンセル" fontSize={14} onPress={navigation.goBack} />
+        <FilledButton text="ツイートする" fontSize={14} onPress={() => onTweet(text)} />
       </View>
-      <LoadingModal isVisible={fetching} />
-    </React.Fragment>
+      <View style={styles.content}>
+        <Avatar uri={!loading &&  user && user.thumbnailURL ? user.thumbnailURL : undefined} />
+        <TextInput
+          autoFocus={true}
+          style={styles.input}
+          multiline={true}
+          placeholder="いまどうしてる？"
+          value={text}
+          onChangeText={setText}
+        />
+      </View>  
+    </View>
+  
   )
 }
 

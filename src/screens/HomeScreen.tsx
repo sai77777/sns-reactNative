@@ -12,66 +12,13 @@ import TweetList from '../components/organisms/tweetList'
 
 const HomeScreen = () => {
   const navigation = useNavigation()
-  const [firebaseUser] = useAuthState(auth)
-  const [user] = useUser(firebaseUser.uid)
-  const [onFetch, { values, loading }] = useFollowTweetPaginator(firebaseUser.uid)
-
-  useEffect(() => {
-    onFetch({ initialize: true })
-  }, [onFetch])
-
-  const goToTweet = useCallback(
-    (uid: string, tweetID: string) => {
-      navigation.dispatch(StackActions.push('Tweet', { uid, tweetID }))
-    },
-    [navigation]
-  )
 
   const goToCreateTweet = useCallback(() => {
-    navigation.dispatch(StackActions.push('CreateTweet'))
+    navigation.navigate('CreateTweet')
   }, [navigation])
-
-  const goToCreateTweetWithParams = useCallback(
-    (writerUID: string, tweetID: string) => {
-      navigation.dispatch(StackActions.push('CreateTweet', { tweetID, writerUID }))
-    },
-    [navigation]
-  )
-
-  const goToUser = useCallback(
-    (uid) => {
-      navigation.dispatch(StackActions.push('User', { uid }))
-    },
-    [navigation]
-  )
-
-  const renderHeaderLeft = useCallback(() => {
-    return (
-      <View style={styles.headerLeftWrapper}>
-        <TouchableOpacity onPress={() => goToUser(firebaseUser.uid)}>
-          <Avatar size="s" uri={(user && user.thumbnailURL) ?? undefined} />
-        </TouchableOpacity>
-      </View>
-    )
-  }, [firebaseUser, goToUser, user])
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: renderHeaderLeft,
-    })
-  }, [navigation, renderHeaderLeft])
 
   return (
     <View style={styles.root}>
-      <TweetList
-        data={values.map((value) => ({ tweetID: value.id, writerUID: value.writer.ref.id }))}
-        refreshing={loading}
-        onRefresh={() => onFetch({ initialize: true })}
-        onEndReached={() => onFetch({ initialize: false })}
-        onPressCard={goToTweet}
-        onPressAvatar={goToUser}
-        onPressRetweet={goToCreateTweetWithParams}
-      />
       <View style={styles.fabWrapper}>
         <Fab onPress={goToCreateTweet}>
           <MaterialIcons name="edit" size={24} color="#ffffff" />
