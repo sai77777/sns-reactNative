@@ -16,147 +16,40 @@ import firebase from '../repositories/firebase'
 
 const Stack = createStackNavigator()
 
-// const TimelineStackNavigator = () => (
-//   <Stack.Navigator initialRouteName="Main" mode="modal">
-//     <Stack.Screen
-//       name="Main"
-//       component={HomeScreen}
-//       options={{
-//         // eslint-disable-next-line react/display-name
-//         headerTitle: () => <AntDesign name="twitter" size={30} color="#1da1f2" />,
-//         headerBackTitleVisible: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="CreateTweet"
-//       component={CreateTweetScreen}
-//       options={{
-//         headerShown: false,
-//       }}
-//     />
-//   </Stack.Navigator>
-// )
+const TimelineStackNavigator = () => (
+  <Stack.Navigator initialRouteName="Main" mode="modal">
+    <Stack.Screen
+      name="Main"
+      component={HomeScreen}
+      options={{
+        // eslint-disable-next-line react/display-name
+        headerTitle: 'ホーム',
+        headerBackTitleVisible: false,
+      }}
+    />
+    <Stack.Screen
+      name="CreateTweet"
+      component={CreateTweetScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+  </Stack.Navigator>
+)
 
-// const HomeStackNavigator = () => (
-//   <Stack.Navigator initialRouteName="Main">
-//     <Stack.Screen
-//       name="Main"
-//       component={HomeScreen}
-//       options={{
-//         headerShown: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="Tweet"
-//       component={TweetScreen}
-//       options={{
-//         headerTitle: 'ツイート',
-//         headerBackTitleVisible: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="User"
-//       component={UserScreen}
-//       options={{
-//         headerTitle: null,
-//         headerBackTitleVisible: false,
-//         headerTransparent: true,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="UpdateUser"
-//       component={UpdateUserScreen}
-//       options={{
-//         headerTitle: '変更',
-//         headerBackTitleVisible: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="FollowList"
-//       component={FollowListScreen}
-//       options={{
-//         headerBackTitleVisible: false,
-//         headerStyle: {
-//           shadowColor: 'transparent',
-//           shadowOpacity: 0,
-//           elevation: 0,
-//         },
-//       }}
-//     />
-//     <Stack.Screen
-//       name="CreateTweet"
-//       component={CreateTweetScreen}
-//       options={{
-//         headerShown: false,
-//       }}
-//     />
-//   </Stack.Navigator>
-// )
+const HomeStackNavigator = () => (
+  <Stack.Navigator initialRouteName="Main">
+    <Stack.Screen
+      name="Main"
+      component={TimelineStackNavigator}
+      options={{
+        headerShown: false,
+      }}
+    />
+  </Stack.Navigator>
+)
 
-// const SearchStackNavigator = () => (
-//   <Stack.Navigator initialRouteName="Main">
-//     <Stack.Screen
-//       name="Main"
-//       component={SearchScreen}
-//       options={{
-//         headerShown: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="SearchTweet"
-//       component={SearchTweetScreen}
-//       options={{
-//         headerTitle: null,
-//         headerTransparent: true,
-//         headerBackTitleVisible: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="Tweet"
-//       component={TweetScreen}
-//       options={{
-//         headerTitle: 'ツイート',
-//         headerBackTitleVisible: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="User"
-//       component={UserScreen}
-//       options={{
-//         headerTitle: 'ツイート',
-//         headerBackTitleVisible: false,
-//         headerTransparent: true,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="UpdateUser"
-//       component={UpdateUserScreen}
-//       options={{
-//         headerTitle: '変更',
-//         headerBackTitleVisible: false,
-//       }}
-//     />
-//     <Stack.Screen
-//       name="FollowList"
-//       component={FollowListScreen}
-//       options={{
-//         headerBackTitleVisible: false,
-//         headerStyle: {
-//           shadowColor: 'transparent',
-//           shadowOpacity: 0,
-//           elevation: 0,
-//         },
-//       }}
-//     />
-//     <Stack.Screen
-//       name="CreateTweet"
-//       component={CreateTweetScreen}
-//       options={{
-//         headerShown: false,
-//       }}
-//     />
-//   </Stack.Navigator>
-// )
+
 
 const UserStackNavigator = () => {
 
@@ -208,10 +101,10 @@ const TabNavigator = () => (
       },
     })}
   >
-    {/* <Tab.Screen name="HomeTab" component={HomeStackNavigator} />
-    <Tab.Screen name="SearchTab" component={SearchStackNavigator} /> */}
+     <Tab.Screen name="HomeTab" component={HomeStackNavigator} />
+    {/*<Tab.Screen name="SearchTab" component={SearchStackNavigator} /> */}
     <Tab.Screen name="UserTab" component={UserStackNavigator} />
   </Tab.Navigator>
 )
 
-export default UserStackNavigator
+export default HomeStackNavigator

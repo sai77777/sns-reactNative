@@ -4,6 +4,10 @@ import { UpdateUser } from '../entities/user'
 const usersFirestoreRef = db.collection('users')
 const usersStorageRef = storage.ref('users')
 
+export const getUserRef = (uid: string) => {
+  const userRef = usersFirestoreRef.doc(uid)
+  return userRef
+}
 const setThumbnail = async (uid: string, blob: Blob): Promise<string | null> => {
   const userStorageRef = usersStorageRef.child(uid)
   const task = userStorageRef.child('thumnail.png').put(blob, { contentType: 'image/png'})
