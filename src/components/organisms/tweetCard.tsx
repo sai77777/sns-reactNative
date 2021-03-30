@@ -144,7 +144,7 @@ const TweetCard = ({
 
   return (
     <TouchableOpacity style={styles.root} onPress={onPressCard}>
-      <View style={styles.inner}>
+      {/* <View style={styles.inner}>
         <View style={styles.avatarWrapper}>
           <TouchableOpacity onPress={onPressAvatar}>
             <Avatar size="m" uri={(user && user.thumbnailURL) ?? undefined} />
@@ -195,7 +195,7 @@ const TweetCard = ({
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </View> */}
     </TouchableOpacity>
   )
 }

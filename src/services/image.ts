@@ -11,17 +11,12 @@ const manipulateImage = async (uri: string, maxWidth: number) => {
 }
 
 export const convertURLToBlob = async (url: string) => {
-  const response = await fetch(url)
-  const blob = await response.blob()
-
-  // const options = { encoding: FileSystem.EncodingType.Base64 };
-	// const base64Response = await FileSystem.readAsStringAsync(
-	// 	url,
-	// 	options,
-	// );
-
-	// const blob = Buffer.from(base64Response, "base64");
-  return blob
+  // url存在する場合
+  if(url){
+    const response = await fetch(url)
+    const blob = await response.blob()
+    return blob
+  }  
 }
 
 
