@@ -64,7 +64,7 @@ const CreateTweetScreen = () => {
         <FilledButton text="ツイートする" fontSize={14} onPress={() => onTweet(text)} />
       </View>
       <View style={styles.content}>
-        <Avatar uri={!loading &&  user && user.thumbnailURL ? user.thumbnailURL : undefined} />
+        { user && <Avatar uri={user.thumbnailURL ?? undefined} />}
         <TextInput
           autoFocus={true}
           style={styles.input}
