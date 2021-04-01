@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
 import { View, StyleSheet, ScrollView } from 'react-native'
-import { useRoute, useNavigation, StackActions } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/core'
+import { useRoute } from '@react-navigation/native'
+import { useTweet } from '../services/hooks/tweet'
 import Separator from '../components/atoms/separator'
 import TweetCard from '../components/organisms/tweetCard'
 
@@ -11,17 +13,11 @@ const TweetScreen = () => {
   const uid = (route.params as any).uid
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tweetID = (route.params as any).tweetID
+  const [tweet, loading] = useTweet(uid, tweetID)
 
   const goToUser = useCallback(
     (uid) => {
-      navigation.dispatch(StackActions.push('User', { uid }))
-    },
-    [navigation]
-  )
-
-  const goToCreateTweet = useCallback(
-    (writerUID: string, tweetID: string) => {
-      navigation.dispatch(StackActions.push('CreateTweet', { tweetID, writerUID }))
+      navigation.navigate('User', { uid })
     },
     [navigation]
   )
@@ -29,12 +25,7 @@ const TweetScreen = () => {
   return (
     <View style={styles.root}>
       <ScrollView>
-        <TweetCard
-          tweetID={tweetID}
-          writerUID={uid}
-          onPressAvatar={() => goToUser(uid)}
-          onPressRetweet={() => goToCreateTweet(uid, tweetID)}
-        />
+        {!loading && tweet && <TweetCard tweet={tweet} onPressAvatar={() => goToUser(tweet.writer.ref.id)} />}
         <Separator />
       </ScrollView>
     </View>

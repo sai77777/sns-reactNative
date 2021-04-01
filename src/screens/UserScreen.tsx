@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigation } from '@react-navigation/core'
 import { useRoute } from '@react-navigation/native'
 import firebase from '../repositories/firebase'
@@ -20,6 +21,10 @@ const UserScreen = () => {
   const uid = (route.params as any).uid
     
   const [user, loading] = useUser(uid)
+  const [firebaseUser] = useAuthState(firebase.auth())
+  const isMy = useMemo(() => {
+    return firebaseUser.uid == uid
+  }, [firebaseUser, uid])
 
   const showThumbnailURL = useMemo(() => {
     if (user && user.thumbnailURL) {
@@ -46,11 +51,13 @@ const UserScreen = () => {
           <Avatar size="l" uri={showThumbnailURL} />
         </View>
         <View style={styles.actionAreaWrapper}>
-          <View style={styles.row}>
-            <OutlinedButton text="変更" onPress={goToUpdateUser} />
-            <Spacer layout="vertical" size="xs" />
-            <OutlinedButton text="ログアウト" color="#FF3333" onPress={onPressLogout} />
-          </View>
+          {isMy && (
+            <View style={styles.row}>
+              <OutlinedButton text="変更" onPress={goToUpdateUser} />
+              <Spacer layout="vertical" size="xs" />
+              <OutlinedButton text="ログアウト" color="#FF3333" onPress={onPressLogout} />
+            </View>
+          )}
         </View>
       </View>
 

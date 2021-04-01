@@ -25,7 +25,7 @@
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "algoliasearch": "^4.6.0",
-    "dayjs": "^1.9.1",
+    "dayjs": "^1.10.4",
     "expo": "^39.0.3",
     "expo-app-auth": "~9.2.0",
     "expo-image-manipulator": "~8.3.0",

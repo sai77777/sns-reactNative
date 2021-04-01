@@ -15,6 +15,8 @@ export const useTweets = (): [Tweet[], boolean, Error | null] => {
     const unsubscribe = targetsRef.onSnapshot({
       next: (snapshot) => {
         const targetValues = snapshot.docs.map((doc) => {
+          // レイテンシー補正
+          // 手動でcreatedAtとupdatedAtをアプリ側に設定
           if (doc.metadata.hasPendingWrites) {
             return buildTweet(doc.id, { ...doc.data(), createdAt: now(), updatedAt: now() })
           }

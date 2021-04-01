@@ -23,7 +23,7 @@ const TimelineStackNavigator = () => (
       component={HomeScreen}
       options={{
         // eslint-disable-next-line react/display-name
-        headerTitle: 'ホーム',
+        headerTitle: () => <AntDesign name="twitter" size={30} color="#1da1f2" />,
         headerBackTitleVisible: false,
       }}
     />
@@ -46,7 +46,25 @@ const HomeStackNavigator = () => (
         headerShown: false,
       }}
     />
+    <Stack.Screen
+      name="Tweet"
+      component={TweetScreen}
+      options={{
+        headerTitle: 'ツイート',
+        headerBackTitleVisible: false,
+      }}
+    />
+    <Stack.Screen
+      name="User"
+      component={UserScreen}
+      options={{
+        headerTitle: null,
+        headerBackTitleVisible: false,
+        headerTransparent: true,
+      }}
+    />
   </Stack.Navigator>
+  
 )
 
 
