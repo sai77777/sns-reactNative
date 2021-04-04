@@ -11,7 +11,7 @@ export const getUserRef = (uid: string) => {
 }
 const setThumbnail = async (uid: string, blob: Blob): Promise<string | null> => {
   const userStorageRef = usersStorageRef.child(uid)
-  const task = userStorageRef.child('thumnail.png').put(blob, { contentType: 'image/png'})
+  const task = userStorageRef.child('thumnail.png').put(blob, { contentType: 'image/png' })
 
   return task
     .then((snapshop) => snapshop.ref.getDownloadURL())
@@ -26,10 +26,9 @@ const setThumbnail = async (uid: string, blob: Blob): Promise<string | null> => 
 
 export const updateUser = async (uid: string, data: UpdateUser) => {
   const userFirestoreRef = usersFirestoreRef.doc(uid)
-  
 
   let thumbnailURL = null
-  if(data.thumbnailBlob) {
+  if (data.thumbnailBlob) {
     thumbnailURL = await setThumbnail(uid, data.thumbnailBlob)
   }
 

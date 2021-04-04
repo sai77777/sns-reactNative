@@ -16,7 +16,7 @@ export const getTweetsRef = (uid: string) => {
 
 export const createTweet = async (uid: string, data: CreateTweet) => {
   const tweetsRef = getTweetsRef(uid)
- 
+
   await tweetsRef.add({
     text: data.text,
     fileURLs: [],

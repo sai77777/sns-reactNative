@@ -5,13 +5,12 @@ import { signInGoogle } from '../services/auth/google'
 //import { signInFaceBook } from '../services/auth/facebook'
 import FilledButton from '../components/atoms/filledButton'
 import Spacer from '../components/atoms/spacer'
-import {useAuthState} from 'react-firebase-hooks/auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import firebase from '../repositories/firebase'
 import { useNavigation } from '@react-navigation/core'
 import { fromNow } from '../services/date'
 
 const WelcomeScreen = () => {
-   
   //Lesson1: アプリにログインログアウトを実装してみよう
   const navigation = useNavigation()
   const [user] = useAuthState(firebase.auth())
@@ -38,9 +37,8 @@ const WelcomeScreen = () => {
 
   //Lesson1: アプリにログインログアウトを実装してみよう
   useEffect(() => {
-
-    if(!user || !user.uid) return
-    navigation.reset({index: 0, routes: [{name: 'Main'}]})
+    if (!user || !user.uid) return
+    navigation.reset({ index: 0, routes: [{ name: 'Main' }] })
   }, [user, navigation])
 
   return (

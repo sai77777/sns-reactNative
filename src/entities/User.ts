@@ -20,7 +20,6 @@ export const buildUser = (id: string, data: firebase.firestore.DocumentData) => 
     thumbnailURL: data.thumbnailURL,
     createdAt: data.createdAt.toDate(),
     updatedAt: data.updatedAt.toDate(),
-
   }
 
   return newUser

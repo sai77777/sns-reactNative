@@ -1,9 +1,12 @@
 import React, { useCallback, useMemo } from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native'
+import { follow, unfollow } from '../services/follow'
+import { useFollowUser } from '../services/hooks/followUser'
+import FilledButton from '../components/atoms/filledButton'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigation } from '@react-navigation/core'
 import { useRoute } from '@react-navigation/native'
-import firebase from '../repositories/firebase'
+import { auth } from '../repositories/firebase'
 import { useUser } from '../services/hooks/user'
 import Spacer from '../components/atoms/spacer'
 import Avatar from '../components/atoms/avatar'
@@ -14,14 +17,16 @@ const coverImageURL =
 
 const UserScreen = () => {
   const navigation = useNavigation()
-  
+
   const route = useRoute()
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const uid = (route.params as any).uid
-    
   const [user, loading] = useUser(uid)
-  const [firebaseUser] = useAuthState(firebase.auth())
+  const [firebaseUser] = useAuthState(auth)
+
+  const [followUser, followLoading] = useFollowUser(firebaseUser.uid, uid)
+
   const isMy = useMemo(() => {
     return firebaseUser.uid == uid
   }, [firebaseUser, uid])
@@ -34,8 +39,16 @@ const UserScreen = () => {
     return undefined
   }, [user])
 
+  const onPressFollow = useCallback(async () => {
+    await follow(firebaseUser.uid, uid)
+  }, [firebaseUser, uid])
+
+  const onPressUnfollow = useCallback(async () => {
+    await unfollow(firebaseUser.uid, uid)
+  }, [firebaseUser, uid])
+
   const onPressLogout = useCallback(() => {
-    firebase.auth().signOut()
+    auth.signOut()
   }, [])
 
   const goToUpdateUser = useCallback(() => {
@@ -56,6 +69,21 @@ const UserScreen = () => {
               <OutlinedButton text="変更" onPress={goToUpdateUser} />
               <Spacer layout="vertical" size="xs" />
               <OutlinedButton text="ログアウト" color="#FF3333" onPress={onPressLogout} />
+            </View>
+          )}
+          {!isMy && followLoading && (
+            <View style={styles.row}>
+              <ActivityIndicator size={9} />
+            </View>
+          )}
+          {!isMy && !followLoading && !followUser && (
+            <View style={styles.row}>
+              <OutlinedButton text="フォロー" onPress={onPressFollow} />
+            </View>
+          )}
+          {!isMy && !followLoading && followUser && (
+            <View style={styles.row}>
+              <FilledButton text="フォロー中" onPress={onPressUnfollow} />
             </View>
           )}
         </View>

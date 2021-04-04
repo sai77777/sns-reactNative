@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native'
 import { UpdateUser } from '../entities/User'
 import { updateUser } from '../repositories/user'
 import { useUser } from '../services/hooks/user'
-import {pickImageFromDevice, convertURLToBlob} from '../services/image'
+import { pickImageFromDevice, convertURLToBlob } from '../services/image'
 import Avatar from '../components/atoms/avatar'
 import Separator from '../components/atoms/separator'
 import Spacer from '../components/atoms/spacer'
@@ -23,7 +23,7 @@ const UpdateUserScreen = () => {
   const [user] = useUser(uid)
   const [newThumbnailURL, setNewThumbnailURL] = useState<string | null>(null)
   const [name, setName] = useState<string>('')
-  const[profile, setProfile] = useState<string>('')
+  const [profile, setProfile] = useState<string>('')
   const [fetching, setFetching] = useState<boolean>(false)
 
   const onPressAvatar = useCallback(async () => {
@@ -80,58 +80,66 @@ const UpdateUserScreen = () => {
   }, [navigation, renderHeaderRight])
 
   useEffect(() => {
-    if(!user) return
+    if (!user) return
     setName(user.name)
     setProfile(user.profile)
   }, [user])
 
-
   return (
     <React.Fragment>
-    <View style={styles.root}>
-      <Image style={styles.coverImage} source={{ uri: coverImageURL }} />
+      <View style={styles.root}>
+        <Image style={styles.coverImage} source={{ uri: coverImageURL }} />
 
-      <View style={styles.headSection}>
-        <View style={styles.thumbnailWrapper}>
-          <Avatar size="l" uri={showThumbnailURL} />
+        <View style={styles.headSection}>
+          <View style={styles.thumbnailWrapper}>
+            <Avatar size="l" uri={showThumbnailURL} />
+          </View>
+          <View style={styles.cameraIconWrapper}>
+            <TouchableOpacity style={styles.cameraIconButton} onPress={onPressAvatar}>
+              <AntDesign name="camerao" color="#f8f8f8" size={36} />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.cameraIconWrapper}>
-          <TouchableOpacity style={styles.cameraIconButton} onPress={onPressAvatar}>
-            <AntDesign name="camerao" color="#f8f8f8" size={36} />
-          </TouchableOpacity>
+
+        <Spacer size="xxl" />
+        <Separator />
+        <Spacer size="s" />
+
+        <View style={styles.section}>
+          <View style={styles.labelWrapper}>
+            <Text style={styles.labelText}>名前</Text>
+          </View>
+          <View style={styles.valueWrapper}>
+            <TextInput
+              style={styles.nameInput}
+              defaultValue={user && user.name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
         </View>
+
+        <Spacer size="s" />
+        <Separator />
+        <Spacer size="s" />
+
+        <View style={styles.section}>
+          <View style={styles.labelWrapper}>
+            <Text style={styles.labelText}>自己紹介</Text>
+          </View>
+          <View style={styles.valueWrapper}>
+            <TextInput
+              style={styles.profileInput}
+              defaultValue={user && user.profile}
+              multiline={true}
+              onChangeText={(text) => setProfile(text)}
+            />
+          </View>
+        </View>
+
+        <Spacer size="s" />
+        <Separator />
       </View>
-
-      <Spacer size="xxl" />
-      <Separator />
-      <Spacer size="s" />
-
-      <View style={styles.section}>
-        <View style={styles.labelWrapper}>
-          <Text style={styles.labelText}>名前</Text>
-        </View>
-        <View style={styles.valueWrapper}>
-          <TextInput style={styles.nameInput} defaultValue={user && user.name} onChangeText={(text) => setName(text)} />
-        </View>
-      </View>
-
-      <Spacer size="s" />
-      <Separator />
-      <Spacer size="s" />
-
-      <View style={styles.section}>
-        <View style={styles.labelWrapper}>
-          <Text style={styles.labelText}>自己紹介</Text>
-        </View>
-        <View style={styles.valueWrapper}>
-          <TextInput style={styles.profileInput} defaultValue={user && user.profile} multiline={true} onChangeText={(text) => setProfile(text)} />
-        </View>
-      </View>
-
-      <Spacer size="s" />
-      <Separator />
-    </View>
-    <LoadingModal isVisible={fetching} />
+      <LoadingModal isVisible={fetching} />
     </React.Fragment>
   )
 }

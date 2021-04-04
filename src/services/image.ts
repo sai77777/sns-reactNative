@@ -2,23 +2,21 @@ import * as ImagePicker from 'expo-image-picker'
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types'
 import * as ImageManipulator from 'expo-image-manipulator'
 import { Image } from 'react-native'
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from 'expo-file-system'
 
 //TODO: maxWidthでリサイズした画像URLをリターンせよ
 const manipulateImage = async (uri: string, maxWidth: number) => {
   // MEMO: {画像の横幅取得} => {リサイズする横幅・前幅取得} => {画像をリサイズする}
-  
 }
 
 export const convertURLToBlob = async (url: string) => {
   // url存在する場合
-  if(url){
+  if (url) {
     const response = await fetch(url)
     const blob = await response.blob()
     return blob
-  }  
+  }
 }
-
 
 export const pickImageFromDevice = async () => {
   const pickResult = await ImagePicker.launchImageLibraryAsync({
