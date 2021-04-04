@@ -11,24 +11,26 @@ type Result = {
   error?: any
 }
 
-
 //宿題FaceBook認証
 export const signInFaceBook = async (): Promise<Result> => {
   try {
     await Facebook.initializeAsync({
       appId: process.env.FACEBOOK_ID,
     })
-    const result = await Facebook.logInWithReadPermissionsAsync({ 
-      permissions:['public_profile']
+    const result = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['public_profile'],
     })
 
-    if( result.type === 'success') {
-      const credential  = firebase.auth.FacebookAuthProvider.credential(result.token)
-      firebase.auth().signInWithCredential(credential).catch((error) => {
-        throw new Error(error)
-      })
-      return {success: true}
-    }else {
+    if (result.type === 'success') {
+      const credential = firebase.auth.FacebookAuthProvider.credential(result.token)
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .catch((error) => {
+          throw new Error(error)
+        })
+      return { success: true }
+    } else {
       return { canceled: true }
     }
   } catch (e) {

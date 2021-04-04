@@ -32,7 +32,6 @@ const CreateTweetScreen = () => {
   const [user, loading] = useUser(firebaseUser.uid)
   const [fetching, setFetching] = useState<boolean>(false)
 
-
   const onTweet = useCallback(
     async (text: string) => {
       try {
@@ -64,7 +63,7 @@ const CreateTweetScreen = () => {
         <FilledButton text="ツイートする" fontSize={14} onPress={() => onTweet(text)} />
       </View>
       <View style={styles.content}>
-        { user && <Avatar uri={user.thumbnailURL ?? undefined} />}
+        {user && <Avatar uri={user.thumbnailURL ?? undefined} />}
         <TextInput
           autoFocus={true}
           style={styles.input}
@@ -73,9 +72,8 @@ const CreateTweetScreen = () => {
           value={text}
           onChangeText={setText}
         />
-      </View>  
+      </View>
     </View>
-  
   )
 }
 

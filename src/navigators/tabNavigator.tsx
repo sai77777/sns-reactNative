@@ -64,13 +64,9 @@ const HomeStackNavigator = () => (
       }}
     />
   </Stack.Navigator>
-  
 )
 
-
-
 const UserStackNavigator = () => {
-
   //Lesson1: アプリにログインログアウトを実装してみよう
   const [user] = useAuthState(firebase.auth())
   return (
@@ -94,7 +90,6 @@ const UserStackNavigator = () => {
         }}
         initialParams={{ uid: user?.uid }}
       />
-      
     </Stack.Navigator>
   )
 }
