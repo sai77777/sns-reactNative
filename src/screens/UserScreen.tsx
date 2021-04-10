@@ -4,7 +4,7 @@ import { follow, unfollow } from '../services/follow'
 import { useFollowUser } from '../services/hooks/followUser'
 import FilledButton from '../components/atoms/filledButton'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, StackActions } from '@react-navigation/core'
 import { useRoute } from '@react-navigation/native'
 import { auth } from '../repositories/firebase'
 import { useUser } from '../services/hooks/user'
@@ -52,8 +52,15 @@ const UserScreen = () => {
   }, [])
 
   const goToUpdateUser = useCallback(() => {
-    navigation.navigate('UpdateUser')
-  }, [navigation])
+    navigation.dispatch(StackActions.push('UpdateUser', { uid }))
+  }, [navigation, uid])
+
+  const goToFollowList = useCallback(
+    (section: 'follow' | 'follower') => {
+      navigation.dispatch(StackActions.push('FollowList', { uid, section }))
+    },
+    [uid, navigation]
+  )
 
   return (
     <View style={styles.root}>
@@ -107,12 +114,12 @@ const UserScreen = () => {
 
       <View style={styles.section}>
         <View style={styles.row}>
-          <Text>
+          <Text onPress={() => goToFollowList('follow')}>
             <Text style={styles.followCountText}>0</Text>
             <Text style={styles.followLabelText}>フォロー中</Text>
           </Text>
           <Spacer layout="vertical" size="s" />
-          <Text>
+          <Text onPress={() => goToFollowList('follower')}>
             <Text style={styles.followCountText}>0</Text>
             <Text style={styles.followLabelText}>フォロワー</Text>
           </Text>
