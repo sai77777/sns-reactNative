@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { View, StyleSheet, ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, StackActions } from '@react-navigation/core'
 import { useRoute } from '@react-navigation/native'
 import { useTweet } from '../services/hooks/tweet'
 import Separator from '../components/atoms/separator'
@@ -17,7 +17,7 @@ const TweetScreen = () => {
 
   const goToUser = useCallback(
     (uid) => {
-      navigation.navigate('User', { uid })
+      navigation.dispatch(StackActions.push('User', { uid }))
     },
     [navigation]
   )
