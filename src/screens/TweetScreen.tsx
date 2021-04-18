@@ -25,7 +25,7 @@ const TweetScreen = () => {
   return (
     <View style={styles.root}>
       <ScrollView>
-        {!loading && tweet && <TweetCard tweet={tweet} onPressAvatar={() => goToUser(tweet.writer.ref.id)} />}
+        {!loading && tweet && <TweetCard tweetID={tweetID} writerUID={uid} onPressAvatar={() => goToUser(uid)} />}
         <Separator />
       </ScrollView>
     </View>
